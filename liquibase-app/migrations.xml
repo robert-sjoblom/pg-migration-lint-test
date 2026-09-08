@@ -9,5 +9,8 @@
     <include file="migrations/202601021030_create_orders.xml"/>
     <include file="migrations/202601031400_create_order_items.xml"/>
     <include file="migrations/202601100900_add_orders_notes.xml"/>
+    <include file="migrations/202601110900_add_shipments.xml"/>
+    <include file="migrations/202601120900_add_user_profile_fields.xml"/>
+    <include file="migrations/202601130900_seed_admin_user.xml"/>
 
 </databaseChangeLog>
