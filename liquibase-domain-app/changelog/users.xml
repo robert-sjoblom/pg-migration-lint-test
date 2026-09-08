@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="users-001-create-table" author="test">
+        <sql>
+            CREATE TABLE IF NOT EXISTS users (
+                id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                email TEXT NOT NULL UNIQUE,
+                display_name TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="users-002-add-last-login" author="test">
+        <sql>
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMPTZ;
+        </sql>
+    </changeSet>
+
+    <changeSet id="users-003-add-email-index" author="test">
+        <sql>
+            CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
+        </sql>
+    </changeSet>
+
+    <changeSet id="users-004-add-status" author="test">
+        <sql>
+            ALTER TABLE users ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

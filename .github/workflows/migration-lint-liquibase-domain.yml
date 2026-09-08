@@ -1,0 +1,39 @@
+name: Migration Lint (Liquibase, domain changelogs)
+
+on:
+  pull_request:
+    paths:
+      - 'liquibase-domain-app/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Download liquibase-bridge.jar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p liquibase-domain-app/tools
+          gh release download v2.16.2 \
+            --repo robert-sjoblom/pg-migration-lint \
+            --pattern liquibase-bridge.jar \
+            --dir liquibase-domain-app/tools \
+            --clobber
+
+      - uses: robert-sjoblom/pg-migration-lint@v2.16.2
+        with:
+          working-directory: liquibase-domain-app
+          fail-on: major
