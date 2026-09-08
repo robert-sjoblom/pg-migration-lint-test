@@ -17,7 +17,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: robert-sjoblom/pg-migration-lint@v2.16.1
+      - uses: robert-sjoblom/pg-migration-lint@v2.16.2
         with:
           working-directory: go-migrate-app
           fail-on: major
