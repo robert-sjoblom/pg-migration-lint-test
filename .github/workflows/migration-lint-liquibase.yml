@@ -30,13 +30,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p liquibase-app/tools
-          gh release download v2.16.1 \
+          gh release download v2.16.2 \
             --repo robert-sjoblom/pg-migration-lint \
             --pattern liquibase-bridge.jar \
             --dir liquibase-app/tools \
             --clobber
 
-      - uses: robert-sjoblom/pg-migration-lint@v2.16.1
+      - uses: robert-sjoblom/pg-migration-lint@v2.16.2
         with:
           working-directory: liquibase-app
           fail-on: major
