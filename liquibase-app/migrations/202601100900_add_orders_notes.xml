@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <include file="migrations/202601010900_create_users.xml"/>
-    <include file="migrations/202601021030_create_orders.xml"/>
-    <include file="migrations/202601031400_create_order_items.xml"/>
-    <include file="migrations/202601100900_add_orders_notes.xml"/>
+    <changeSet id="202601100900_add_orders_notes" author="test">
+        <sql>
+            ALTER TABLE orders ADD COLUMN notes TEXT NOT NULL;
+
+            CREATE INDEX idx_orders_status ON orders (status);
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
