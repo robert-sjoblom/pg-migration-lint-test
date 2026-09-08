@@ -1,0 +1,11 @@
+[migrations]
+paths = ["migrations"]
+strategy = "filename_lexicographic"
+default_schema = "public"
+
+[output]
+formats = ["sarif"]
+dir = "build/reports/migration-lint"
+
+[cli]
+fail_on = "critical"

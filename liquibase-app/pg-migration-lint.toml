@@ -1,0 +1,15 @@
+[migrations]
+paths = ["migrations.xml"]
+strategy = "liquibase"
+default_schema = "public"
+
+[liquibase]
+bridge_jar_path = "tools/liquibase-bridge.jar"
+strategy = "auto"
+
+[output]
+formats = ["sarif"]
+dir = "build/reports/migration-lint"
+
+[cli]
+fail_on = "critical"
