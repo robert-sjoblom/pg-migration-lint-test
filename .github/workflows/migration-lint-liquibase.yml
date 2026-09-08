@@ -1,0 +1,42 @@
+name: Migration Lint (Liquibase)
+
+on:
+  pull_request:
+    paths:
+      - 'liquibase-app/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # pg-migration-lint's own release binary doesn't bundle the Liquibase
+      # bridge JAR; a Liquibase-strategy consumer fetches it separately and
+      # points `bridge_jar_path` (in pg-migration-lint.toml) at it.
+      - name: Download liquibase-bridge.jar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p liquibase-app/tools
+          gh release download v2.16.0 \
+            --repo robert-sjoblom/pg-migration-lint \
+            --pattern liquibase-bridge.jar \
+            --dir liquibase-app/tools \
+            --clobber
+
+      - uses: robert-sjoblom/pg-migration-lint@v2.16.0
+        with:
+          working-directory: liquibase-app
+          fail-on: major
